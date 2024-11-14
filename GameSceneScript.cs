@@ -21,12 +21,15 @@ public class GameSceneScript : MonoBehaviour
     public GameObject gameOverPanel;
     public TextMeshProUGUI scoreText;
 
+    // Projectile Variables
+    public GameObject projectile;
+    public Transform originalPosition;
+
     // Start is called before the first frame update
     void Start()
     {
         PlayerPrefs.SetInt("Number of Games Played", PlayerPrefs.GetInt("Number of Games Played")+1);
-        timerIsRunning = true;
-        StartCoroutine(Countdown());
+        StartCoroutine(DelayStartCountdown());
     }
 
     // Update is called once per frame
@@ -35,6 +38,12 @@ public class GameSceneScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             SetCams();
+        }
+        if(Input.GetKey(KeyCode.Space))
+        {
+            GameObject bullet = Instantiate(projectile, originalPosition.position+transform.forward * 1.5f, Quaternion.identity) as GameObject;
+            bullet.transform.localScale = new Vector3(0.1773227f, 0.1773227f, 0.1773227f);
+            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
         }
     }
 
@@ -82,6 +91,14 @@ public class GameSceneScript : MonoBehaviour
         gameOverPanel.SetActive(true);
         // Start a coroutine to wait for 2 seconds and then call ToHomeScene()
         StartCoroutine(WaitAndGoToHome());
+    }
+
+    // Coroutine to delay the start of the countdown by 29 seconds
+    private IEnumerator DelayStartCountdown()
+    {
+        yield return new WaitForSeconds(29f);
+        timerIsRunning = true;
+        StartCoroutine(Countdown());
     }
 
 }

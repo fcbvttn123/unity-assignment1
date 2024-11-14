@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float speed = 5;
+    private float speed;
     private CharacterController characterController;
 
     // Reference to GameSceneScript
@@ -21,6 +21,8 @@ public class CharacterMovement : MonoBehaviour
         gameSceneScript = FindObjectOfType<GameSceneScript>();
         // Refernce to animator component
         animator = GetComponent<Animator>();
+        // Set character speed to 3
+        speed = 3;
     }
 
     // Update is called once per frame
@@ -57,7 +59,7 @@ public class CharacterMovement : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Check if the object hit by the player is the cube (assuming the cube has the tag "Obstacle")
-        if (other.gameObject.name == "FinalPoint")
+        if (other.gameObject.name == "FinalPoint2")
         {
             // Stop the game
             gameSceneScript.GameOver();
